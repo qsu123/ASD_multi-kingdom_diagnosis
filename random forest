@@ -30,7 +30,7 @@ rf_mtry2 <- train(group~ . ,
 print(rf_mtry2)
 
 tuneGrid2 <- expand.grid(.mtry = c(1: 20))
-rf_mtry2 <- train(group~ Fusicatenibacter_saccharivorans+Clostridium_leptum+Bacteroides_fragilis ,
+rf_mtry2 <- train(group~ . ,
                   data = trainset,
                   method = "rf",
                   metric = "Accuracy",
@@ -46,7 +46,7 @@ store_maxnode <- list()
 tuneGrid2 <- expand.grid(.mtry = best_mtry2)
 for (maxnodes in c(2: 20)) {
   set.seed(100)
-  rf_maxnode2 <- train(group~ Fusicatenibacter_saccharivorans+Clostridium_leptum+Bacteroides_fragilis ,
+  rf_maxnode2 <- train(group~ . ,
                        data = trainset,
                        method = "rf",
                        metric = "Accuracy",
@@ -66,7 +66,7 @@ store_nodesize <- list()
 tuneGrid2 <- expand.grid(.mtry = best_mtry2)
 for (nodesize in c(1: 12)) {
   set.seed(100)
-  rf_nodesize2 <- train(group~ Fusicatenibacter_saccharivorans+Clostridium_leptum+Bacteroides_fragilis ,
+  rf_nodesize2 <- train(group~ . ,
                         data = trainset,
                         method = "rf",
                         metric = "Accuracy",
@@ -85,7 +85,7 @@ summary(results_nodesize2)
 store_maxtrees <- list()
 for (ntree in c(250, 300, 350, 400, 450, 500, 550, 600, 800, 1000)) {
   set.seed(100)
-  rf_maxtrees2 <- train(group~ Fusicatenibacter_saccharivorans+Clostridium_leptum+Bacteroides_fragilis ,
+  rf_maxtrees2 <- train(group~ . ,
                         data = trainset,
                         method = "rf",
                         metric = "Accuracy",
