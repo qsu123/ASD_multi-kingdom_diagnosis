@@ -1,0 +1,10 @@
+# normalization 
+
+setwd("")
+otu_table = read.delim("abundance.txt", row.names= 1, header=T, sep="\t")
+norm = t(t(otu_table)/colSums(otu_table,na=T)) * 100 # normalization to total 100
+write.table(norm,"abundance_normed.txt",sep="\t")
+
+
+
+
