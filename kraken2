@@ -1,0 +1,47 @@
+
+#activate conda
+cd ./bin
+chmod 777 activate 
+. ./activate
+
+#create environment
+conda create --name kraken2 python=3.5
+
+#activate environment
+conda activate kraken2
+
+#install kraken2
+conda install -c bioconda kraken2
+conda install -y bracken
+
+#construct standard reference database
+kraken2-build --standard --db db_standard --no-masking
+
+#construct customized reference database
+kraken2-build --download-taxonomy --db db_multikingdom
+
+#build index
+kraken2-build --build --threads 24 --db db_multikingdom
+
+#check
+kraken2-inspect -db db_multikingdom | head -5
+
+#analysis
+cd ./kraken
+
+parallel -j 8 --link --xapply --plus  --regexp   
+' kraken2 --db /home/qisu/kraken2/db_multikingdom  
+--threads 56  
+--report ./{}/TEST.report --output ./{}/TEST.output  
+--paired /home/{}/{}.R1_kneaddata_paired_1.fastq /home/{}/{}.R1_kneaddata_paired_2.fastq'   
+:::: /home/list.txt
+
+
+#abundance
+
+../bracken-build -d /home/qisu/kraken2/db_multikingdom -t 42 -l 150
+./bracken -d /home/qisu/kraken2/db_multikingdom -i /home/bracken/S001.TEST.report -o /home/bracken/S001.TEST.S.bracken -w /home/bracken/S006.TEST.S.bracken.report -r 150 -l S
+python ./kreport2mpa.py -r /home/bracken/S006.TEST.S.bracken.report   -o /home/bracken2/S006.TEST.new.report
+
+#combining files
+python combine_kreports.py -r /home/kraken/*.report -o COMBINED.KREPORT
