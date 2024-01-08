@@ -1,0 +1,8 @@
+library(pheatmap)
+setwd("")
+data<-read.table("markers.txt",sep = "\t",header = TRUE)
+row.names(data)<-data[,1]
+data=data[,-1]
+pheatmap(data, scale="none",cellwidth = 26, cluster_cols = FALSE,cluster_rows = FALSE,
+         number_color = "black",
+         cellheight = 12,color = colorRampPalette(c("#2166ac", "white", "#b2182b"))(50),filename = "markers.pdf")
