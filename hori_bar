@@ -1,0 +1,9 @@
+library(ggplot2)
+setwd("")
+data=read.table("coef.txt", sep="\t", header=TRUE)
+theme_set(theme_bw())
+head(data)
+p<-ggplot(data,aes(x=label,y=coef))+geom_bar(aes(fill=coef),stat='identity',position = 'dodge',width=.8)+ylab("coef")+
+   coord_flip()
+p
+ggsave("A.pdf", width = 8, height = 16, units = "cm")
