@@ -1,0 +1,16 @@
+library(ggplot2)
+library(reshape2)
+theme_set(theme_bw())
+setwd("D:/PhD_Projects/ASD_marker/analysis_wh/confounder_matching")
+
+
+data<-read.table("FD.txt",sep = "\t",header = TRUE)
+head(data)
+p3<-ggplot(data, aes(group, pro, fill=label))+
+  geom_bar(stat="identity",position = "stack")+
+  guides(fill=guide_legend(reverse=F))+
+  scale_y_continuous(expand=c(0,0))+theme_bw()+labs(x="", y = "Proportion (%)")+theme(panel.grid=element_blank())+
+  theme(panel.grid.major =element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(),axis.line = element_line(colour = "black"))
+p3
+
+ggsave('FD.pdf',width=2.7,height=3)
