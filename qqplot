@@ -1,0 +1,11 @@
+install.packages("qqman")
+library("qqman")
+library("ggplot2")
+
+vignette('qqman')
+setwd("")
+data=read.table("data.txt", sep="\t", header=TRUE)
+head(data)
+qq(data$p)
+
+ggsave("KO.pdf", width = 10, height =10, units = "cm")
