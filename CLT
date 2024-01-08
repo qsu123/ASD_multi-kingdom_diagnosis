@@ -1,2 +1,5 @@
 install.packages("compositions")
 library("compositions")
+setwd("data_path")
+data=read.table("abundance_table.txt", sep="\t",header=TRUE)
+data_clr = compositions::clr(data)
