@@ -1,0 +1,19 @@
+rm(list = ls())
+library(ggplot2)
+setwd("")
+data =read.table("KOs.txt", sep="\t", header=TRUE)
+head(data)
+  p <- ggplot(data, aes(coef, -log10FDR, col = color)) +
+  geom_point() +
+  theme_bw() +
+  scale_color_manual(values = color) +
+  labs(x="log2(Fold Change)",y="-log10FDR") +
+  geom_hline(yintercept = -log10(0.01), lty=4,col="grey",lwd=0.6) +
+  geom_vline(xintercept = 0, lty=4,col="grey",lwd=0.6) +
+  theme(legend.position = "none",
+        panel.grid=element_blank(),
+        axis.title = element_text(size = 16),
+        axis.text = element_text(size = 14))+xlim(-0.6,0.6)
+p
+
+ggsave('KOs.pdf',width = 6,height = 4.5)
