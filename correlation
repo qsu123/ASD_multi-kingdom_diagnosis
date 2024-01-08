@@ -1,0 +1,13 @@
+library("ggcorrplot")
+setwd("")
+data<-read.table("data.txt",sep = "\t",header = TRUE)
+row.names(data)<-data[,1]
+data<-subset(data,select=-c(Subject.ID))
+corr <- round(cor(data), 1)
+p.mat <- cor_pmat(data)
+
+ggcorrplot(corr, method="circle",type = "upper",ggtheme=theme_bw(),outline.color = "white",
+           lab=TRUE, lab_size=2,
+           p.mat = p.mat, sig.level = 0.05,insig = "blank")
+
+ggsave("meta_corelation.pdf", width = 25, height = 25, units = "cm")
