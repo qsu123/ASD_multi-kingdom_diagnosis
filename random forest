@@ -1,0 +1,136 @@
+library(randomForest)
+library(caret)
+library(e1071)
+
+data <- read.table("data.txt", header=T, row.names=1, sep="\t")
+str(data)
+data$group <- as.factor(data$group)
+set.seed(100)
+ind = sample(2,nrow(data),replace = TRUE,prob = c(0.7,0.3))
+trainset = data[ind == 1,]
+testset = data[ind == 2,]
+trControl <- trainControl(method = "cv", number = 5, search ="grid", savePredictions = TRUE)
+
+rf_default2 <- train(group~ . ,
+                     data = trainset,
+                     method = "rf",
+                     metric = "Accuracy",
+                     trControl = trControl
+                     #,tuneGrid = NULL
+)
+
+print(rf_default2)
+
+rf_mtry2 <- train(group~ . ,
+                  data = trainset,
+                  method = "rf",
+                  metric = "Accuracy",
+                  tuneGrid = tuneGrid2,
+                  trControl = trControl)
+print(rf_mtry2)
+
+tuneGrid2 <- expand.grid(.mtry = c(1: 20))
+rf_mtry2 <- train(group~ Fusicatenibacter_saccharivorans+Clostridium_leptum+Bacteroides_fragilis ,
+                  data = trainset,
+                  method = "rf",
+                  metric = "Accuracy",
+                  tuneGrid = tuneGrid2,
+                  trControl = trControl)
+print(rf_mtry2)
+
+max(rf_mtry2$results$Accuracy)
+best_mtry2 <- rf_mtry2$bestTune$mtry 
+best_mtry2   # = 1
+
+store_maxnode <- list()
+tuneGrid2 <- expand.grid(.mtry = best_mtry2)
+for (maxnodes in c(2: 20)) {
+  set.seed(100)
+  rf_maxnode2 <- train(group~ Fusicatenibacter_saccharivorans+Clostridium_leptum+Bacteroides_fragilis ,
+                       data = trainset,
+                       method = "rf",
+                       metric = "Accuracy",
+                       tuneGrid = tuneGrid2,
+                       trControl = trControl,
+                       importance = TRUE,
+                       maxnodes = maxnodes,
+                       ntree = 300)
+  current_iteration <- toString(maxnodes)
+  store_maxnode[[current_iteration]] <- rf_maxnode2
+}
+results_mtry2 <- resamples(store_maxnode)
+summary(results_mtry2)
+#maxnodes= 13
+
+store_nodesize <- list()
+tuneGrid2 <- expand.grid(.mtry = best_mtry2)
+for (nodesize in c(1: 12)) {
+  set.seed(100)
+  rf_nodesize2 <- train(group~ Fusicatenibacter_saccharivorans+Clostridium_leptum+Bacteroides_fragilis ,
+                        data = trainset,
+                        method = "rf",
+                        metric = "Accuracy",
+                        tuneGrid = tuneGrid2,
+                        trControl = trControl,
+                        importance = TRUE,
+                        maxnodes = 13,
+                        nodesize = nodesize,
+                        ntree = 300)
+  current_iteration <- toString(nodesize)
+  store_nodesize[[current_iteration]] <- rf_nodesize2
+}
+results_nodesize2 <- resamples(store_nodesize)
+summary(results_nodesize2)
+
+store_maxtrees <- list()
+for (ntree in c(250, 300, 350, 400, 450, 500, 550, 600, 800, 1000)) {
+  set.seed(100)
+  rf_maxtrees2 <- train(group~ Fusicatenibacter_saccharivorans+Clostridium_leptum+Bacteroides_fragilis ,
+                        data = trainset,
+                        method = "rf",
+                        metric = "Accuracy",
+                        tuneGrid = tuneGrid2,
+                        trControl = trControl,
+                        importance = TRUE,
+                        nodesize = 1,
+                        maxnodes = 13,
+                        ntree = ntree)
+  key <- toString(ntree)
+  store_maxtrees[[key]] <- rf_maxtrees2
+}
+results_tree2 <- resamples(store_maxtrees)
+summary(results_tree2)
+
+fit_rf2 <- train(group~ .,
+                 trainset,
+                 method = "rf",
+                 metric = "Accuracy",
+                 tuneGrid = tuneGrid2,
+                 trControl = trControl,
+                 importance = TRUE,
+                 nodesize = 1,
+                 maxnodes = 13,
+                 ntree = 300)
+print(fit_rf2)
+
+train_predict <- predict(fit_rf2, trainset)
+compare_train <- table(train_predict, trainset$group)
+compare_train
+sum(diag(compare_train)/sum(compare_train))
+confusionMatrix(train_predict,trainset$group) 
+
+prediction_prob <- predict(fit_rf2, newdata=trainset, type="prob")
+library(pROC)
+roc_curve <- roc(trainset$group, prediction_prob[,1])
+roc_curve
+
+test_predict <- predict(fit_rf2, testset)
+compare_test <- table(testset$group, test_predict, dnn = c('Actual', 'Predicted'))
+compare_test
+confusionMatrix(test_predict,testset$group) 
+
+prediction_prob <- predict(fit_rf2, newdata=testset, type="prob")
+library(pROC)
+roc_curve <- roc(testset$group, prediction_prob[,1])
+#roc <- roc(testset$group, factor(predictions_test, ordered=T))
+roc_curve 
