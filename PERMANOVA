@@ -33,5 +33,5 @@ data<-subset(data,select=-c(group))
 #dataT<-as.data.frame(t(data))
 dist <- vegdist(data, method="bray")
 
-adonis_result_dis = adonis(dist~group, site, permutations = 999)
+adonis_result_dis = adonis2(dist~., site, permutations = 999. by="margin")
 adonis_result_dis
