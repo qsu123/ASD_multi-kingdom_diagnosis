@@ -1,4 +1,4 @@
-# normalization 
+# normalization for relative abundance 
 
 setwd("")
 otu_table = read.delim("abundance.txt", row.names= 1, header=T, sep="\t")
