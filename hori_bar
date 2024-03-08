@@ -1,4 +1,4 @@
-#used for figure 3d
+#used for figure 3c,3d
 library(ggplot2)
 setwd("")
 data=read.table("coef.txt", sep="\t", header=TRUE)
