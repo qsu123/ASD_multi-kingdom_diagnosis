@@ -1,4 +1,4 @@
-#used for figure 4b, supplementary figure 2,4,7,9
+#used for figure 3c,4b, supplementary figure 2,4,7,9
 
 library(pheatmap)
 setwd("")
