@@ -13,18 +13,18 @@ library(ggpubr)
 library(dplyr)
 options(stringsAsFactors=F)
 
+#set the data path
 setwd("data_path")
-rm(list=ls())
-
+#open the abundance table
 df=read.table("abundance_table.txt", sep="\t",header=TRUE)
-
+#open the metadata
 sd <- read.table("group.txt", sep="\t",header=TRUE)
-
+#combine the above files
 data<-inner_join(df, sd, by="sample")
 
 site = data.frame(sample = data$sample,
                   group = data$group)
-
+#remove the column of sample name 
 row.names(data)<-data[,1]
 data=data[,-1]
 data<-subset(data,select=-c(group))
@@ -32,6 +32,6 @@ data<-subset(data,select=-c(group))
 
 #dataT<-as.data.frame(t(data))
 dist <- vegdist(data, method="bray")
-
+#calculation
 adonis_result_dis = adonis2(dist~., site, permutations = 999. by="margin")
 adonis_result_dis
