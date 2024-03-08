@@ -1,3 +1,6 @@
+#for data transformation from relative abundance
+#tutorial can be found in https://cran.r-project.org/web/packages/compositions/index.html
+
 install.packages("compositions")
 library("compositions")
 setwd("data_path")
