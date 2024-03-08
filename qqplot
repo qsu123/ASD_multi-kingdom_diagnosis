@@ -1,3 +1,4 @@
+#for qqplot of association analysis
 install.packages("qqman")
 library("qqman")
 library("ggplot2")
