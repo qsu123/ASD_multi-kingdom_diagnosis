@@ -1,5 +1,5 @@
 #used for figure 1d, figure 2b, figure 3d, figure 4b, supplementary figure 1c,7,9
-
+#tutorial can be found in https://huttenhower.sph.harvard.edu/maaslin/
 library ("phyloseq")
 library("ggplot2")
 library(permute)
