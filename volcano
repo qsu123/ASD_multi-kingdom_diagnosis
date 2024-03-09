@@ -12,7 +12,7 @@ p <- ggplot(data, aes(coef, -log10FDR, col = color)) +
   theme_bw() +
   scale_color_manual(values = color) +
   labs(x="log2(Fold Change)",y="-log10FDR") +
-  geom_hline(yintercept = -log10(0.01), lty=4,col="grey",lwd=0.6) +
+  geom_hline(yintercept = -log10(0.05), lty=4,col="grey",lwd=0.6) +
   geom_vline(xintercept = 0, lty=4,col="grey",lwd=0.6) +
   theme(legend.position = "none",
         panel.grid=element_blank(),
