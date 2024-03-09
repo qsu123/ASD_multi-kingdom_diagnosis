@@ -6,14 +6,16 @@ library(lattice)
 library(vegan) 
 library(tidyverse)  
 library(ggpubr)
-setwd("D:/PhD_Projects/ASD_marker/analysis_wh/diversity")
-
+#set file path
+setwd("")
+#open data
 diversitydata=read.table("diversity_fungi.txt", sep="\t", header=TRUE)
-
+#plotting
 shannon<-ggviolin(diversitydata, x="group", y="shannon_diversity", fill = "group", 
                   palette = c("#E69F00", "#253494"),
                   add = "boxplot", add.params = list(fill="white"))+scale_y_continuous(limits=c(3,4.5))+
   labs(x="", y = "shannon_diversity")+
   theme(legend.title=element_blank(),legend.text=element_text(size=15),axis.text = element_text(size=15), axis.title = element_text(size=16))
 shannon
+#save figure
 ggsave("diversity_fungi.pdf", width = 6.4, height = 12, units = "cm")
