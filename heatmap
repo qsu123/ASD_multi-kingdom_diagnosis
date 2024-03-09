@@ -1,5 +1,5 @@
 #used for figure 3c,4b, supplementary figure 2,4,7,9
-
+#tutorial can be found in https://www.rdocumentation.org/packages/pheatmap/versions/1.0.12/topics/pheatmap
 library(pheatmap)
 setwd("")
 data<-read.table("markers.txt",sep = "\t",header = TRUE)
