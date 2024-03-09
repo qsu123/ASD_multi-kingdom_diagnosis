@@ -1,3 +1,5 @@
+#used for check potential colinearity of confounders
+
 library("ggcorrplot")
 setwd("")
 data<-read.table("data.txt",sep = "\t",header = TRUE)
