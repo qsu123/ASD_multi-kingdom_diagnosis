@@ -7,21 +7,28 @@ library(lattice)
 library(vegan) 
 library(tidyverse)  
 library(ggpubr)
+#set file path
 setwd("abundance_table_path")
+#open the abundance table
 divdata=read.table("abundance_table.txt", sep="\t", header=TRUE,row.names=NULL,check.names=FALSE,quote="")
+#set the column name
 row.names(divdata)<-divdata[,1]
 divdata=divdata[,-1]
 mode(divdata)
 divdata<-as.data.frame(divdata)
+#Table horizontal and vertical coordinate transformation
 divdata_t<-t(divdata)
 diversity(divdata_t, index="shannon")
+#calculate alpha diversity and evenness
 shannon_diversity=diversity(divdata_t,index="shannon") 
 simpson_diversity=diversity(divdata_t,index="simpson")
 S<-specnumber(divdata_t)
 evenness<-shannon_diversity/log(S)
+#combine results
 diversity<-cbind(shannon_diversity,simpson_diversity,evenness)
 print(diversity)
 write.csv(diversity,"diversity.txt")
+#calculate richness defined by observed species
 rep<-rep(1000000000000, rep = 610)
 mode(divdata)
 dicdata_integ<-divdata*rep
@@ -31,6 +38,8 @@ write.csv(divdata_integ_richness,"species_integ_new.csv")
 divdata_integ_richness_t<-t(divdata_integ_richness)
 richness <- estimateR(divdata_integ_richness_t)[1, ] 
 print(richness)
+#combine results
 diversity_richness<-cbind(shannon_diversity,simpson_diversity,evenness,richness)
 print(diversity_richness)
+#data output
 write.table(diversity_richness,"diversity_all.txt", sep="\t")
