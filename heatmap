@@ -1,10 +1,14 @@
 #used for figure 3c,4b, supplementary figure 2,4,7,9
 #tutorial can be found in https://www.rdocumentation.org/packages/pheatmap/versions/1.0.12/topics/pheatmap
 library(pheatmap)
+#set file path
 setwd("")
+#open data table
 data<-read.table("markers.txt",sep = "\t",header = TRUE)
+#set column name
 row.names(data)<-data[,1]
 data=data[,-1]
+#plotting
 pheatmap(data, scale="none",cellwidth = 26, cluster_cols = FALSE,cluster_rows = FALSE,
          number_color = "black",
          cellheight = 12,color = colorRampPalette(c("#2166ac", "white", "#b2182b"))(50),filename = "markers.pdf")
