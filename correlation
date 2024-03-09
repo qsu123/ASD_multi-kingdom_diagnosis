@@ -1,15 +1,20 @@
 #used for check potential colinearity of confounders
 
 library("ggcorrplot")
+#set file path
 setwd("")
+#open the confounder table
 data<-read.table("data.txt",sep = "\t",header = TRUE)
+#set column name
 row.names(data)<-data[,1]
 data<-subset(data,select=-c(Subject.ID))
+#calculate correlation
 corr <- round(cor(data), 1)
+#calculate p value
 p.mat <- cor_pmat(data)
-
+#plotting results
 ggcorrplot(corr, method="circle",type = "upper",ggtheme=theme_bw(),outline.color = "white",
            lab=TRUE, lab_size=2,
            p.mat = p.mat, sig.level = 0.05,insig = "blank")
-
+#save figures
 ggsave("meta_corelation.pdf", width = 25, height = 25, units = "cm")
