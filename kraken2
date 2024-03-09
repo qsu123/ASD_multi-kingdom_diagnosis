@@ -1,5 +1,5 @@
 #used for multi-kingdom microbiome profiling
-
+#tutorial can be found in https://ccb.jhu.edu/software/kraken2/
 #activate conda
 cd ./bin
 chmod 777 activate 
