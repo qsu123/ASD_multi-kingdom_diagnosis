@@ -1,3 +1,5 @@
+#used for model training, feature selection and validation
+#tutorial can be found in https://www.guru99.com/r-random-forest-tutorial.html
 library(randomForest)
 library(caret)
 library(e1071)
