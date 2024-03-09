@@ -1,4 +1,4 @@
-
+#use for plotting relative abundance
 
 library ("phyloseq")
 library("ggplot2")
@@ -6,17 +6,22 @@ library(vegan)
 library(tidyverse) 
 library("ggpubr")
 
+#set the file path
 setwd("")
 
 ###plot diversity
+#open the diversity file
 divdata=read.table("data.txt", sep="\t", header=TRUE)#, row.names = 1)
+#set comparison
 my_comparisons<-list(c("A","B"))
 p<-ggboxplot(divdata, x="num", y="num", color = "num")+
   geom_jitter(aes(x = num, y = num, color = factor(num)), size=6, alpha=1,
               position = position_jitterdodge())
+#adding p symbols
 p<-p+stat_compare_means(comparisons = my_comparisons)+  stat_compare_means()+theme(legend.title=element_blank())+
   theme()
 p
+#save the figure
 ggsave("data.pdf", width = 16, height = 13, units = "cm")
 
 
