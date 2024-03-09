@@ -1,10 +1,14 @@
 #used for figure 3c,3d
 library(ggplot2)
+#set file path
 setwd("")
+#open data
 data=read.table("coef.txt", sep="\t", header=TRUE)
 theme_set(theme_bw())
 head(data)
+#plotting
 p<-ggplot(data,aes(x=label,y=coef))+geom_bar(aes(fill=coef),stat='identity',position = 'dodge',width=.8)+ylab("coef")+
    coord_flip()
 p
+#save figure
 ggsave("A.pdf", width = 8, height = 16, units = "cm")
