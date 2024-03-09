@@ -1,10 +1,13 @@
 #for figure 1d, figure 2b
-rm(list = ls())
+
 library(ggplot2)
+#set file path
 setwd("")
+#open data
 data =read.table("KOs.txt", sep="\t", header=TRUE)
 head(data)
-  p <- ggplot(data, aes(coef, -log10FDR, col = color)) +
+#plotting
+p <- ggplot(data, aes(coef, -log10FDR, col = color)) +
   geom_point() +
   theme_bw() +
   scale_color_manual(values = color) +
@@ -16,5 +19,5 @@ head(data)
         axis.title = element_text(size = 16),
         axis.text = element_text(size = 14))+xlim(-0.6,0.6)
 p
-
+#save figures
 ggsave('KOs.pdf',width = 6,height = 4.5)
