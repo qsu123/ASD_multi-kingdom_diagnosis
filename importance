@@ -1,0 +1,22 @@
+#used for figure 3e
+library(ggplot2)
+library(scales)
+library ("phyloseq")
+library("ggplot2")
+library(permute)
+library(lattice)
+library(vegan)
+library(tidyverse)
+library(ggpubr)
+#set file path
+setwd("")
+#open data file
+data<-read.table("importance.txt",sep = "\t",header = TRUE)
+#plotting
+p<-ggplot(data, aes(x=name,y=MDA),fill = "red",color="white")+
+  geom_point(color="black",size=3)+
+  geom_errorbar(aes(ymin=MDA-se,ymax=MDA+se),width=0.05)+
+  labs(y="MDA")+ coord_flip()
+p
+#save figures
+ggsave("importance.pdf", width = 4.5, height = 10, units = "cm")
