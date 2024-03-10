@@ -1,3 +1,5 @@
+#tutorial can be found in https://uw.pressbooks.pub/appliedmultivariatestatistics/chapter/pcoa/
+
 rm(list=ls())
 library(vegan)
 library(ggpubr)
