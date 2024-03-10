@@ -1,4 +1,4 @@
-
+#tutorial can be found in https://uw.pressbooks.pub/appliedmultivariatestatistics/chapter/permanova/
 library(vegan)
 library(ggpubr)
 library(reshape2)
