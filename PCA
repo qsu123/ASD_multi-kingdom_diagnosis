@@ -1,3 +1,6 @@
+#used for supplementary 1b
+#tutorial can be found in https://www.cs.cmu.edu/~elaw/papers/pca.pdf
+
 library(ggplot2)
 library("ggbiplot")
 library(devtools)
