@@ -1,0 +1,39 @@
+library(ggplot2)
+library("ggbiplot")
+library(devtools)
+setwd("D:/PhD_Projects/Multi_label_Prediction/revision/diet")
+data<-read.table("data.txt",sep = "\t",header = TRUE,row.names = 1)
+data<-t(data)
+
+dfGroup<-read.table("group.txt",sep = "\t",header = TRUE,
+                    row.names = 1)
+
+pca_result <- prcomp(data, scale=T)
+
+ggbiplot(pca_result, 
+         var.axes=F,            # ÊÇ·ñÎª±äÁ¿»­¼ýÍ·
+         obs.scale = 1,         # ºá×Ý±ÈÀý 
+         groups = dfGroup[,1],  # Ìí¼Ó·Ö×éÐÅÏ¢£¬Îª·Ö×éÎÄ¼þµÄµÚÒ»ÁÐ
+         ellipse = T,           # ÊÇ·ñÎ§ÈÆ·Ö×é»­ÍÖÔ²
+         circle = F)+ 
+  geom_text(                      # geom_textÒ»¸öÔÚÍ¼ÖÐÌí¼Ó±ê×¢µÄº¯Êý
+    aes(label=rownames(data)),   # Ö¸¶¨±ê×¢µÄÄÚÈÝÎªÊý¾Ý¿òdfµÄÐÐÃû
+    vjust=1.5,            # Ö¸¶¨±ê¼ÇµÄÎ»ÖÃ£¬vjust=1.5 ´¹Ö±ÏòÏÂ1.5¸ö¾àÀë¡£   ¸ºÊýÎªÎ»ÖÃÏòÉÏ±ê¼Ç£¬ÕýÊýÎªÎ»ÖÃÏòÏÂ±ê¼Ç
+    size=2                # ±ê¼Ç´óÐ¡
+  )
+
+ggsave("PCA4.pdf", width = 15, height = 15, units = "cm")
+
+
+ggbiplot(pca_result, 
+         var.axes=F,            # ÊÇ·ñÎª±äÁ¿»­¼ýÍ·        # ºá×Ý±ÈÀý 
+         groups = dfGroup[,1],  # Ìí¼Ó·Ö×éÐÅÏ¢£¬Îª·Ö×éÎÄ¼þµÄµÚÒ»ÁÐ
+         ellipse = T, # ÊÇ·ñÎ§ÈÆ·Ö×é»­ÍÖÔ²
+         ellipse.prob = 0.95,
+         circle = F)+theme_bw()+scale_color_manual(values=c("#e41a1c","#377eb8","#4daf4a"))
+
+
+
+
+
+
